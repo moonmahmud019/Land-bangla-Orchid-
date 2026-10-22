@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Land Bangla Orchid | Flat Owners Association</title>
+<style>
+:root{--navy:#173b35;--green:#24765e;--mint:#e8f5ef;--gold:#e5b75b;--ink:#1f2d2a;--muted:#6b7b76;--line:#e3ebe7;--bg:#f5f8f6}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans Bengali","Hind Siliguri",system-ui,sans-serif}
+header{background:linear-gradient(125deg,#153b34,#26765e);color:#fff;padding:22px 18px 28px;border-radius:0 0 26px 26px}
+.wrap{max-width:1050px;margin:auto} .brand{display:flex;gap:12px;align-items:center}.logo{width:48px;height:48px;border-radius:15px;background:#ffffff20;display:grid;place-items:center;font-size:25px;border:1px solid #ffffff50}
+h1{font-size:22px;margin:0}header p{margin:4px 0 0;color:#d8eee4;font-size:13px}.toprow{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+button{border:0;border-radius:11px;padding:11px 15px;font:inherit;font-weight:700;cursor:pointer}.primary{background:var(--gold);color:#263a32}.secondary{background:#fff;color:var(--green)}.tabs{display:flex;gap:8px;overflow:auto;margin:18px 0}.tab{background:#e7efeb;color:#53665e;white-space:nowrap}.tab.active{background:var(--green);color:#fff}
+main{padding:0 16px 30px;margin-top:18px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stat,.panel{background:white;border:1px solid var(--line);border-radius:17px;padding:16px;box-shadow:0 4px 18px #173b3508}.stat .label{font-size:12px;color:var(--muted)}.stat strong{display:block;font-size:25px;margin-top:8px;color:var(--navy)}.stat small{color:var(--muted)}
+.layout{display:grid;grid-template-columns:1.3fr .7fr;gap:14px;margin-top:14px}.panel h2{font-size:17px;margin:0 0 12px}.panelhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+input,select,textarea{font:inherit;border:1px solid #d8e4de;border-radius:10px;padding:10px;background:#fff;width:100%;min-width:0;color:var(--ink)}.search{max-width:260px}.ownerlist{display:grid;gap:9px}.owner{display:flex;align-items:center;gap:12px;padding:11px;border:1px solid var(--line);border-radius:13px}.avatar{width:45px;height:45px;border-radius:50%;background:var(--mint);display:grid;place-items:center;color:var(--green);font-weight:800;overflow:hidden;flex-shrink:0}.avatar img{width:100%;height:100%;object-fit:cover}.ownerinfo{flex:1;min-width:0}.ownerinfo strong{display:block;font-size:14px}.ownerinfo small{display:block;color:var(--muted);margin-top:3px;font-size:12px}.pill{font-size:11px;padding:5px 8px;border-radius:20px;white-space:nowrap}.paid{background:#e3f6e9;color:#217248}.due{background:#fff1d9;color:#99651b}.money{font-size:14px;font-weight:800}.notice{background:#f4f8f6;border-radius:12px;padding:12px;margin:8px 0;font-size:13px}.notice strong{display:block;margin-bottom:4px}.quick{display:grid;grid-template-columns:1fr 1fr;gap:8px}.quick button{background:var(--mint);color:var(--green);text-align:left}.hidden{display:none!important}.empty{text-align:center;color:var(--muted);padding:25px 10px}.foot{text-align:center;color:var(--muted);font-size:11px;padding:20px}
+.modal{position:fixed;inset:0;background:#10251fc2;display:none;align-items:center;justify-content:center;padding:16px;z-index:5}.modal.show{display:flex}.dialog{background:#fff;border-radius:18px;padding:20px;width:min(560px,100%);max-height:90vh;overflow:auto}.dialog h2{margin:0 0 14px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:11px}.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}.field.full{grid-column:1/-1}.actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}.plain{background:#eef3f0;color:#38534a}.danger{background:#fff0ed;color:#a23e30}
+table{border-collapse:collapse;width:100%;font-size:13px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line)}th{color:var(--muted);font-weight:600}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:1fr}.stat strong{font-size:22px}.search{max-width:none;width:100%}.fields{grid-template-columns:1fr 1fr}h1{font-size:19px}}
+@media(max-width:430px){.fields{grid-template-columns:1fr}.field.full{grid-column:auto}.owner{gap:8px}.pill{font-size:10px}.stats{gap:8px}.stat{padding:13px}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<div class="toprow"><div class="brand"><div class="logo">🏢</div><div><h1>Land Bangla Orchid</h1><p>৮৯/২/৯, আর কে মিশন রোড, গোপীবাগ সপ্তম গলি, ঢাকা</p></div></div><button class="primary" onclick="openForm()">＋ মালিক যোগ করুন</button></div>
+</div></header>
+<main class="wrap">
+<div class="tabs"><button class="tab active" data-tab="dashboard" onclick="switchTab('dashboard',this)">ড্যাশবোর্ড</button><button class="tab" data-tab="owners" onclick="switchTab('owners',this)">মালিক তালিকা</button><button class="tab" data-tab="dues" onclick="switchTab('dues',this)">মাসিক চাঁদা</button></div>
+<section id="dashboard">
+<div class="stats">
+<div class="stat"><span class="label">মোট ফ্ল্যাট মালিক</span><strong id="totalOwners">৩</strong><small>নিবন্ধিত মালিক</small></div>
+<div class="stat"><span class="label">মাসিক মোট চাঁদা</span><strong id="monthlyTotal">৳ ৯,০০০</strong><small>সব ফ্ল্যাট মিলিয়ে</small></div>
+<div class="stat"><span class="label">এই মাসে আদায়</span><strong id="collected">৳ ৬,০০০</strong><small id="collectedCount">২ জন পরিশোধ করেছেন</small></div>
+<div class="stat"><span class="label">বকেয়া</span><strong id="outstanding">৳ ৩,০০০</strong><small id="dueCount">১ জনের বকেয়া</small></div>
+</div>
+<div class="layout">
+<div class="panel"><div class="panelhead"><h2>ফ্ল্যাট মালিকদের তালিকা</h2><input class="search" id="search" placeholder="নাম / ফ্ল্যাট / ফোন খুঁজুন..." oninput="renderOwners()"></div><div class="ownerlist" id="ownerList"></div></div>
+<div class="panel"><h2>দ্রুত কাজ</h2><div class="quick"><button onclick="openForm()">＋ নতুন মালিক</button><button onclick="switchTab('dues',document.querySelector('[data-tab=dues]'))">৳ চাঁদার হিসাব</button></div><div class="notice"><strong>📌 মাসিক চাঁদা</strong><span id="feeNote">প্রাথমিক মাসিক চাঁদা ৩,০০০ টাকা। প্রয়োজনে অ্যাডমিন মালিকের তথ্য থেকে পরিবর্তন করতে পারবেন।</span></div><div class="notice"><strong>📍 ভবনের ঠিকানা</strong>৮৯/২/৯, আর কে মিশন রোড, গোপীবাগ সপ্তম গলি, ঢাকা</div><div class="notice"><strong>🔐 অ্যাডমিন ও মালিক প্রবেশাধিকার</strong>এই ডেমোতে এখনো আলাদা লগইন নেই। বাস্তব ব্যবহারের আগে অ্যাডমিন ও মালিকের জন্য আলাদা অ্যাকাউন্ট, অনুমতি এবং অনলাইন ডেটাবেস যুক্ত করতে হবে।</div><button class="plain" style="width:100%" onclick="exportData()">⬇ মালিকদের CSV ডাউনলোড</button></div>
+</div>
+</section>
+<section id="owners" class="hidden"><div class="panel"><div class="panelhead"><h2>সকল ফ্ল্যাট মালিক</h2><input class="search" id="search2" placeholder="নাম / ফ্ল্যাট / ফোন খুঁজুন..." oninput="document.getElementById('search').value=this.value;renderOwners()"></div><div class="ownerlist" id="ownerList2"></div></div></section>
+<section id="dues" class="hidden"><div class="panel"><div class="panelhead"><h2>মাসিক চাঁদা ও পরিশোধের হিসাব</h2><label style="font-size:12px">মাস <select id="month" onchange="renderDues()" style="width:auto;display:inline-block"><option>অক্টোবর ২০২৬</option><option>নভেম্বর ২০২৬</option><option>ডিসেম্বর ২০২৬</option><option>জানুয়ারি ২০২৭</option></select></label></div><div style="overflow:auto"><table><thead><tr><th>মালিক</th><th>ফ্ল্যাট</th><th>নির্ধারিত চাঁদা</th><th>অবস্থা</th><th>কাজ</th></tr></thead><tbody id="duesBody"></tbody></table></div></div></section>
+<div class="foot">Land Bangla Orchid • প্রাথমিক ডেমো • তথ্য এই ব্রাউজারেই সংরক্ষিত হয়</div>
+</main>
+<div class="modal" id="modal"><div class="dialog"><h2 id="formTitle">নতুন ফ্ল্যাট মালিক যোগ করুন</h2><form id="ownerForm"><input type="hidden" id="editId"><div class="fields">
+<div class="field"><label>মালিকের পূর্ণ নাম *</label><input id="name" required placeholder="নাম লিখুন"></div>
+<div class="field"><label>ফ্ল্যাট নম্বর *</label><input id="flat" required placeholder="যেমন: A-3"></div>
+<div class="field"><label>মোবাইল নম্বর</label><input id="phone" inputmode="tel" placeholder="01XXXXXXXXX"></div>
+<div class="field"><label>মাসিক চাঁদা (৳) *</label><input id="fee" type="number" min="0" required value="3000"></div>
+<div class="field full"><label>ঠিকানা</label><textarea id="address" rows="2" placeholder="বাড়ি, সড়ক, এলাকা, শহর"></textarea></div>
+<div class="field full"><label>ছবি (ঐচ্ছিক)</label><input id="photo" type="file" accept="image/*"></div>
+<div class="field"><label>এই মাসের চাঁদা</label><select id="status"><option value="due">বকেয়া</option><option value="paid">পরিশোধিত</option></select></div>
+<div class="field"><label>পরিচয় / নোট</label><input id="note" placeholder="যেমন: ফ্ল্যাট মালিক"></div>
+</div><div class="actions"><button type="button" class="plain" onclick="closeForm()">বাতিল</button><button class="primary" type="submit">সংরক্ষণ করুন</button></div></form></div></div>
+<script>
+const seed=[
+{id:1,name:"মোঃ আরিফ রহমান",flat:"A-1",phone:"01700000001",fee:3000,address:"৮৯/২/৯, আর কে মিশন রোড, গোপীবাগ সপ্তম গলি, ঢাকা",status:"paid",note:"ফ্ল্যাট মালিক",photo:""},
+{id:2,name:"সাবিনা আক্তার",flat:"A-2",phone:"01800000002",fee:3000,address:"৮৯/২/৯, আর কে মিশন রোড, গোপীবাগ সপ্তম গলি, ঢাকা",status:"paid",note:"ফ্ল্যাট মালিক",photo:""},
+{id:3,name:"মোঃ সাইফুল ইসলাম",flat:"B-1",phone:"01900000003",fee:3000,address:"৮৯/২/৯, আর কে মিশন রোড, গোপীবাগ সপ্তম গলি, ঢাকা",status:"due",note:"ফ্ল্যাট মালিক",photo:""}
+];
+let owners;try{owners=JSON.parse(localStorage.getItem("lbo_owners"))||seed}catch(e){owners=seed}
+let nextId=Math.max(0,...owners.map(o=>o.id))+1;
+const fmt=n=>"৳ "+Number(n||0).toLocaleString("en-US");
+function save(){localStorage.setItem("lbo_owners",JSON.stringify(owners));renderAll()}
+function avatar(o){return o.photo?`<img src="${o.photo}" alt="">`:((o.name||"?").trim().slice(0,1))}
+function ownerHTML(o){return `<div class="owner"><div class="avatar">${avatar(o)}</div><div class="ownerinfo"><strong>${esc(o.name)} <span style="color:#82938c;font-weight:400">· ${esc(o.flat)}</span></strong><small>${esc(o.phone||"ফোন দেওয়া হয়নি")} · ${esc(o.address||"ঠিকানা দেওয়া হয়নি")}</small><small>মাসিক চাঁদা: <b>${fmt(o.fee)}</b></small></div><span class="pill ${o.status==="paid"?"paid":"due"}">${o.status==="paid"?"পরিশোধিত":"বকেয়া"}</span><button class="plain" onclick="editOwner(${o.id})">✎</button></div>`}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function renderOwners(){let q=(document.getElementById("search")?.value||"").toLowerCase();let arr=owners.filter(o=>[o.name,o.flat,o.phone,o.address].join(" ").toLowerCase().includes(q));document.getElementById("ownerList").innerHTML=arr.map(ownerHTML).join("")||'<div class="empty">কোনো মালিক পাওয়া যায়নি</div>';document.getElementById("ownerList2").innerHTML=arr.map(ownerHTML).join("")||'<div class="empty">কোনো মালিক পাওয়া যায়নি</div>'}
+function renderDues(){document.getElementById("duesBody").innerHTML=owners.map(o=>`<tr><td>${esc(o.name)}<br><small>${esc(o.phone||"")}</small></td><td>${esc(o.flat)}</td><td>${fmt(o.fee)}</td><td><span class="pill ${o.status==="paid"?"paid":"due"}">${o.status==="paid"?"পরিশোধিত":"বকেয়া"}</span></td><td><button class="${o.status==="paid"?"plain":"primary"}" onclick="togglePaid(${o.id})">${o.status==="paid"?"বকেয়া করুন":"পরিশোধিত চিহ্নিত করুন"}</button> <button class="plain" onclick="editOwner(${o.id})">সম্পাদনা</button></td></tr>`).join("")}
+function renderStats(){let total=owners.reduce((s,o)=>s+Number(o.fee||0),0),paid=owners.filter(o=>o.status==="paid"),col=paid.reduce((s,o)=>s+Number(o.fee||0),0),due=total-col;document.getElementById("totalOwners").textContent=owners.length.toLocaleString("bn-BD");document.getElementById("monthlyTotal").textContent=fmt(total);document.getElementById("collected").textContent=fmt(col);document.getElementById("outstanding").textContent=fmt(due);document.getElementById("collectedCount").textContent=paid.length.toLocaleString("bn-BD")+" জন পরিশোধ করেছেন";document.getElementById("dueCount").textContent=owners.filter(o=>o.status!=="paid").length.toLocaleString("bn-BD")+" জনের বকেয়া"}
+function renderAll(){renderStats();renderOwners();renderDues()}
+function switchTab(tab,btn){["dashboard","owners","dues"].forEach(t=>document.getElementById(t).classList.toggle("hidden",t!==tab));document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab))}
+function openForm(){document.getElementById("ownerForm").reset();document.getElementById("editId").value="";document.getElementById("formTitle").textContent="নতুন ফ্ল্যাট মালিক যোগ করুন";document.getElementById("modal").classList.add("show")}
+function closeForm(){document.getElementById("modal").classList.remove("show")}
+function editOwner(id){let o=owners.find(x=>x.id===id);if(!o)return;openForm();document.getElementById("formTitle").textContent="মালিকের তথ্য সম্পাদনা";for(let k of ["name","flat","phone","fee","address","status","note"])document.getElementById(k).value=o[k]??"";document.getElementById("editId").value=id}
+function togglePaid(id){let o=owners.find(x=>x.id===id);if(o){o.status=o.status==="paid"?"due":"paid";save()}}
+document.getElementById("ownerForm").addEventListener("submit",async e=>{e.preventDefault();let id=Number(document.getElementById("editId").value),old=owners.find(o=>o.id===id),file=document.getElementById("photo").files[0],photo=old?.photo||"";if(file){photo=await new Promise((resolve,reject)=>{let r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)})}let o={id:id||nextId++,name:document.getElementById("name").value.trim(),flat:document.getElementById("flat").value.trim(),phone:document.getElementById("phone").value.trim(),fee:Number(document.getElementById("fee").value),address:document.getElementById("address").value.trim(),status:document.getElementById("status").value,note:document.getElementById("note").value.trim(),photo};if(id)owners=owners.map(x=>x.id===id?o:x);else owners.push(o);save();closeForm()});
+function exportData(){let rows=[["নাম","ফ্ল্যাট","মোবাইল","ঠিকানা","মাসিক চাঁদা","এই মাসের অবস্থা","নোট"],...owners.map(o=>[o.name,o.flat,o.phone,o.address,o.fee,o.status==="paid"?"পরিশোধিত":"বকেয়া",o.note])];let csv="\ufeff"+rows.map(r=>r.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\r\n");let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));a.download="land-bangla-orchid-owners.csv";a.click();URL.revokeObjectURL(a.href)}
+renderAll();
+</script>
+</body></html>
