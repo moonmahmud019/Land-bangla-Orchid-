@@ -26,7 +26,7 @@ jobs:
           channel: stable
 
       - name: Create Flutter project
-        run: flutter create . --platforms=android --org com.landbangla
+        run: flutter create land_bangla_orchid --platforms=android --org com.landbangla
 
       - name: Get dependencies
         run: flutter pub get
