@@ -1,0 +1,13 @@
+{
+  "name": "land-bangla-orchid-functions",
+  "private": true,
+  "main": "lib/index.js",
+  "engines": { "node": "20" },
+  "scripts": { "build": "tsc", "deploy": "npm run build && firebase deploy --only functions" },
+  "dependencies": {
+    "firebase-admin": "^13.0.2",
+    "firebase-functions": "^6.3.2",
+    "nodemailer": "^6.10.0"
+  },
+  "devDependencies": { "@types/node": "^22.10.5", "@types/nodemailer": "^6.4.17", "typescript": "^5.7.2" }
+}

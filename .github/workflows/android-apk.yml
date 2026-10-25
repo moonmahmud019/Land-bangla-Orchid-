@@ -12,7 +12,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -27,25 +26,20 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
+          cache: true
 
-      - name: Create Flutter project
-        run: flutter create land_bangla_orchid --platforms=android --org com.landbangla
+      - name: Generate Android scaffolding
+        run: flutter create . --project-name=land_bangla_orchid --platforms=android --org com.landbangla
 
-      - name: Copy app source
-        run: |
-          cp -r lib land_bangla_orchid/
-          cp pubspec.yaml land_bangla_orchid/
-
-      - name: Enter project directory
-        working-directory: land_bangla_orchid
+      - name: Get dependencies
         run: flutter pub get
 
-      - name: Build APK
-        working-directory: land_bangla_orchid
+      - name: Build release APK
         run: flutter build apk --release
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: land-bangla-orchid-apk
-          path: land_bangla_orchid/build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
