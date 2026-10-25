@@ -6,6 +6,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,7 +21,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: "17"
+          java-version: '17'
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
@@ -28,15 +31,21 @@ jobs:
       - name: Create Flutter project
         run: flutter create land_bangla_orchid --platforms=android --org com.landbangla
 
-      - name: Get dependencies
+      - name: Copy app source
+        run: |
+          cp -r lib land_bangla_orchid/
+          cp pubspec.yaml land_bangla_orchid/
+
+      - name: Enter project directory
+        working-directory: land_bangla_orchid
         run: flutter pub get
 
       - name: Build APK
+        working-directory: land_bangla_orchid
         run: flutter build apk --release
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: land-bangla-orchid-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
-          if-no-files-found: error
+          path: land_bangla_orchid/build/app/outputs/flutter-apk/app-release.apk
