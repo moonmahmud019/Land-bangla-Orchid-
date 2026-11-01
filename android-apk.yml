@@ -1,0 +1,124 @@
+name: Build Land Bangla Orchid APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Create Android Flutter project
+        run: flutter create land_bangla_orchid --platforms=android --org com.landbangla
+
+      - name: Copy web application
+        run: |
+          mkdir -p land_bangla_orchid/assets
+          cp web/index.html land_bangla_orchid/assets/index.html
+          cp web/app.js land_bangla_orchid/assets/app.js
+          cp web/icon.png land_bangla_orchid/assets/icon.png
+
+      - name: Configure Flutter app
+        working-directory: land_bangla_orchid
+        run: |
+          cat > pubspec.yaml <<'PUBSPEC'
+          name: land_bangla_orchid
+          description: Land Bangla Orchid apartment management app
+          publish_to: 'none'
+          version: 1.0.0+1
+          environment:
+            sdk: '>=3.4.0 <4.0.0'
+          dependencies:
+            flutter:
+              sdk: flutter
+            webview_flutter: ^4.10.0
+          dev_dependencies:
+            flutter_test:
+              sdk: flutter
+            flutter_lints: ^5.0.0
+            flutter_launcher_icons: ^0.14.3
+          flutter:
+            uses-material-design: true
+            assets:
+              - assets/index.html
+              - assets/app.js
+              - assets/icon.png
+          flutter_launcher_icons:
+            android: true
+            ios: false
+            image_path: assets/icon.png
+            min_sdk_android: 21
+          PUBSPEC
+          cat > lib/main.dart <<'DART'
+          import 'package:flutter/material.dart';
+          import 'package:webview_flutter/webview_flutter.dart';
+
+          void main() {
+            WidgetsFlutterBinding.ensureInitialized();
+            runApp(const LandBanglaOrchidApp());
+          }
+
+          class LandBanglaOrchidApp extends StatefulWidget {
+            const LandBanglaOrchidApp({super.key});
+            @override
+            State<LandBanglaOrchidApp> createState() => _LandBanglaOrchidAppState();
+          }
+
+          class _LandBanglaOrchidAppState extends State<LandBanglaOrchidApp> {
+            late final WebViewController controller;
+            @override
+            void initState() {
+              super.initState();
+              controller = WebViewController()
+                ..setJavaScriptMode(JavaScriptMode.unrestricted)
+                ..setBackgroundColor(const Color(0xFFF2F6F4))
+                ..loadFlutterAsset('assets/index.html');
+            }
+            @override
+            Widget build(BuildContext context) => MaterialApp(
+              title: 'Land Bangla Orchid',
+              debugShowCheckedModeBanner: false,
+              theme: ThemeData(colorSchemeSeed: const Color(0xFF075B45), useMaterial3: true),
+              home: Scaffold(body: SafeArea(child: WebViewWidget(controller: controller))),
+            );
+          }
+          DART
+          # Set app label and internet access for Firebase/WebView.
+          sed -i 's/android:label=".*"/android:label="Land Bangla Orchid"/' android/app/src/main/AndroidManifest.xml
+          sed -i '/<manifest/a\    <uses-permission android:name="android.permission.INTERNET" />' android/app/src/main/AndroidManifest.xml
+
+      - name: Get Flutter dependencies
+        working-directory: land_bangla_orchid
+        run: |
+          flutter pub get
+          dart run flutter_launcher_icons
+
+      - name: Build release APK
+        working-directory: land_bangla_orchid
+        run: flutter build apk --release
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: land-bangla-orchid-apk
+          path: land_bangla_orchid/build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
