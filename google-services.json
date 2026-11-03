@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "366655994186",
+    "project_id": "land-bangla-orchid",
+    "storage_bucket": "land-bangla-orchid.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:366655994186:android:e316cad11a71bffd2969b3",
+        "android_client_info": {
+          "package_name": "com.landbangla.land_bangla_orchid"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzMyt7nAJSaowKtm8b2k5fV35xWcL5rSU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
