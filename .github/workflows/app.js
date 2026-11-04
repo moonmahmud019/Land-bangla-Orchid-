@@ -4,9 +4,13 @@ import { getFirestore, collection, doc, getDoc, getDocs, addDoc, setDoc, updateD
 
 // Firebase Console > Project settings > Your apps থেকে নিজের config বসান।
 const firebaseConfig = {
-  apiKey: 'YOUR_API_KEY', authDomain: 'YOUR_PROJECT.firebaseapp.com',
-  projectId: 'YOUR_PROJECT_ID', storageBucket: 'YOUR_PROJECT.appspot.com',
-  messagingSenderId: 'YOUR_SENDER_ID', appId: 'YOUR_APP_ID'
+  apiKey: "AIzaSyAfWYL5RSBiXv4hyiQn_Z9JH772Z-yId4o",
+  authDomain: "land-bangla-orchid.firebaseapp.com",
+  projectId: "land-bangla-orchid",
+  storageBucket: "land-bangla-orchid.firebasestorage.app",
+  messagingSenderId: "366655994186",
+  appId: "1:366655994186:web:fc0801bd997e1ce52969b3",
+  measurementId: "G-T22TC7BGN2"
 };
 const $ = id => document.getElementById(id);
 let auth, db, currentUser=null, isAdmin=false, residents=[], garages=[], transactions=[], admins=[];
