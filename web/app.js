@@ -30,10 +30,50 @@ function renderResidents(){const q=($('searchResidents')?.value||'').toLowerCase
 function renderType(type){return residents.filter(r=>r.type===type).map(r=>`<div class="item"><b>${esc(r.name)} · ফ্ল্যাট ${esc(r.flat)}</b><div class="muted">${esc(r.phone||'')} · ${esc(r.email||'')}</div></div>`).join('')||'কোনো তথ্য নেই';}
 $('searchResidents').addEventListener('input',renderResidents);
 document.addEventListener('click',async e=>{const er=e.target.dataset.editRes,dr=e.target.dataset.delRes,eg=e.target.dataset.editGarage,dg=e.target.dataset.delGarage,ng=e.target.dataset.newGarage,ef=e.target.dataset.editFund,df=e.target.dataset.delFund,ta=e.target.dataset.toggleAdmin;if(er){if(!adminOnly())return;const r=residents.find(x=>x.id===er);$('residentId').value=r.id;$('residentType').value=r.type;$('residentName').value=r.name||'';$('residentFlat').value=r.flat||'';$('residentPhone').value=r.phone||'';$('residentEmail').value=r.email||'';$('residentPhoto').value=r.photo||'';$('residentUid').value=r.uid||'';showTab('manage');}if(dr&&adminOnly()&&confirm('এই রেকর্ড মুছবেন?')){await deleteDoc(doc(db,'residents',dr));await refresh();}if(eg){const g=garages.find(x=>x.id===eg);if(g){$('garageId').value=g.id;$('garageNo').value=g.number;$('garagePerson').value=g.person||'';$('garageFlat').value=g.flat||'';$('garagePhone').value=g.phone||'';$('garageStatus').value=g.status||'খালি';}}if(ng){$('garageId').value='';$('garageNo').value=ng;$('garagePerson').value='';$('garageFlat').value='';$('garagePhone').value='';$('garageStatus').value='খালি';}if(dg&&adminOnly()&&confirm('গ্যারেজ রেকর্ড মুছবেন?')){await deleteDoc(doc(db,'garages',dg));await refresh();}if(ef&&adminOnly()){const t=transactions.find(x=>x.id===ef);if(t){$('fundType').value=t.type;$('fundTitle').value=t.title;$('fundAmount').value=t.amount;$('fundDate').value=t.date;$('fundForm').dataset.editId=t.id;showTab('funds');}}if(df&&adminOnly()&&confirm('এই লেনদেন মুছবেন?')){await deleteDoc(doc(db,'fundTransactions',df));await refresh();}if(ta&&adminOnly()&&confirm('অ্যাডমিনের প্রবেশাধিকার পরিবর্তন করবেন?')){const a=admins.find(x=>x.id===ta);await updateDoc(doc(db,'admins',ta),{active:!a.active});await refresh();}});
-$('residentForm').addEventListener('submit',async e=>{e.preventDefault();if(!adminOnly())return;const id=$('residentId').value;const data={type:$('residentType').value,name:$('residentName').value.trim(),flat:$('residentFlat').value.trim(),phone:$('residentPhone').value.trim(),email:$('residentEmail').value.trim(),photo:$('residentPhoto').value.trim(),uid:$('residentUid').value.trim(),updatedAt:serverTimestamp()};if(id)await updateDoc(doc(db,'residents',id),data);else await addDoc(collection(db,'residents'),{...data,createdAt:serverTimestamp()});e.target.reset();$('residentId').value='';await refresh();message('তথ্য সংরক্ষণ হয়েছে।');});
-function renderGarages(){$('garageList').innerHTML=Array.from({length:14},(_,i)=>{const no=String(i+1).padStart(2,'0'),g=garages.find(x=>String(x.number)===no||String(x.number)===String(i+1));return `<div class="item row"><div><b>গ্যারেজ ${no}</b><div class="muted">${esc(g?.person||'বরাদ্দ নেই')} · ফ্ল্যাট ${esc(g?.flat||'—')} · ${esc(g?.status||'খালি')}</div></div>${isAdmin?`<button class="secondary" data-edit-garage="${g?.id||''}" data-new-garage="${no}">সম্পাদনা</button>`:''}</div>`}).join('');}
+$('residentForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  if(!adminOnly())return;
+
+  const id=$('residentId').value;
+  const data={
+    type:$('residentType').value,
+    name:$('residentName').value.trim(),
+    flat:$('residentFlat').value.trim(),
+    phone:$('residentPhone').value.trim(),
+    email:$('residentEmail').value.trim(),
+    photo:$('residentPhoto').value.trim(),
+    uid:$('residentUid').value.trim(),
+    updatedAt:serverTimestamp()
+  };
+
+  const existing=await readAll('residents');
+
+  const duplicate=existing.some(r=>
+    r.flat.toUpperCase()===data.flat.toUpperCase() && r.id!==id
+  );
+
+  if(duplicate){
+    message('এই ফ্ল্যাট নম্বরটি আগে থেকেই নিবন্ধিত আছে।');
+    return;
+  }
+
+  if(id){
+    await updateDoc(doc(db,'residents',id),data);
+  }else{
+    await addDoc(collection(db,'residents'),{
+      ...data,
+      createdAt:serverTimestamp()
+    });
+  }
+
+  e.target.reset();
+  $('residentId').value='';
+  await refresh();
+  message('তথ্য সংরক্ষণ হয়েছে।');
+});function renderGarages(){$('garageList').innerHTML=Array.from({length:14},(_,i)=>{const no=String(i+1).padStart(2,'0'),g=garages.find(x=>String(x.number)===no||String(x.number)===String(i+1));return `<div class="item row"><div><b>গ্যারেজ ${no}</b><div class="muted">${esc(g?.person||'বরাদ্দ নেই')} · ফ্ল্যাট ${esc(g?.flat||'—')} · ${esc(g?.status||'খালি')}</div></div>${isAdmin?`<button class="secondary" data-edit-garage="${g?.id||''}" data-new-garage="${no}">সম্পাদনা</button>`:''}</div>`}).join('');}
 $('garageForm').addEventListener('submit',async e=>{e.preventDefault();if(!adminOnly())return;const id=$('garageId').value;const data={number:$('garageNo').value.trim(),person:$('garagePerson').value.trim(),flat:$('garageFlat').value.trim(),phone:$('garagePhone').value.trim(),status:$('garageStatus').value,updatedAt:serverTimestamp()};if(id)await updateDoc(doc(db,'garages',id),data);else await addDoc(collection(db,'garages'),data);e.target.reset();$('garageId').value='';await refresh();message('গ্যারেজের তথ্য সংরক্ষণ হয়েছে।');});
 function renderFunds(){const inc=transactions.filter(x=>x.type==='income').reduce((a,x)=>a+Number(x.amount||0),0),out=transactions.filter(x=>x.type==='expense').reduce((a,x)=>a+Number(x.amount||0),0);$('income').textContent=money(inc);$('expense').textContent=money(out);$('balance').textContent=money(inc-out);$('fundList').innerHTML=transactions.sort((a,b)=>(b.date||'').localeCompare(a.date||'')).map(t=>`<div class="item row"><div><b>${esc(t.title)}</b><div class="muted">${esc(t.date||'')}</div></div><div><b>${t.type==='income'?'+':'−'}${money(t.amount)}</b>${isAdmin?` <button class="secondary" data-edit-fund="${t.id}">সম্পাদনা</button> <button class="danger" data-del-fund="${t.id}">মুছুন</button>`:''}</div></div>`).join('')||'এখনো কোনো লেনদেন নেই';}
 function renderAdmins(){if(!$('adminList'))return;$('adminList').innerHTML='<h4>অনুমোদিত অ্যাডমিন তালিকা (সমান ক্ষমতা)</h4>'+admins.map(a=>`<div class="item row"><div><b>${esc(a.name||'অ্যাডমিন')}</b><div class="muted">UID: ${esc(a.id)} · ${a.active?'সক্রিয়':'নিষ্ক্রিয়'}</div></div><button class="secondary" data-toggle-admin="${a.id}" data-active="${a.active?'true':'false'}">${a.active?'নিষ্ক্রিয় করুন':'সক্রিয় করুন'}</button></div>`).join('')+'<p class="muted">নতুন অ্যাডমিনের Authentication account আগে Firebase Console-এ তৈরি করতে হবে। এরপর তার UID-কে admins collection-এ document ID হিসেবে যোগ করুন।</p>';}
 $('fundForm').addEventListener('submit',async e=>{e.preventDefault();if(!adminOnly())return;const id=e.target.dataset.editId;const data={type:$('fundType').value,title:$('fundTitle').value.trim(),amount:Number($('fundAmount').value),date:$('fundDate').value,updatedBy:currentUser.uid,updatedAt:serverTimestamp()};if(id){await updateDoc(doc(db,'fundTransactions',id),data);delete e.target.dataset.editId;}else await addDoc(collection(db,'fundTransactions'),{...data,createdBy:currentUser.uid,createdAt:serverTimestamp()});e.target.reset();await refresh();message('লেনদেন সংরক্ষণ হয়েছে।');});
 function showTab(id){document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('hidden',x.id!==id));}document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+1
