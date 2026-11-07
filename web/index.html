@@ -19,6 +19,32 @@
 <section id="tenants" class="card panel hidden"><h3>ভাড়াটিয়া ডেটাবেজ</h3><div id="tenantList"></div></section>
 <section id="garages" class="card panel hidden"><h3>১৪টি গ্যারেজ ব্যবস্থাপনা</h3><div id="garageList"></div><div id="garageFormBox" class="hidden"><h4>গ্যারেজ বরাদ্দ / সম্পাদনা</h4><form id="garageForm"><input type="hidden" id="garageId"><div><label>গ্যারেজ নম্বর</label><input id="garageNo" required></div><div><label>বরাদ্দপ্রাপ্ত ব্যক্তি</label><input id="garagePerson"></div><div><label>ফ্ল্যাট নম্বর</label><input id="garageFlat"></div><div><label>মোবাইল</label><input id="garagePhone"></div><div><label>অবস্থা</label><select id="garageStatus"><option>খালি</option><option>বরাদ্দ</option><option>মেরামতাধীন</option></select></div><button>সংরক্ষণ</button></form></div></section>
 <section id="funds" class="card panel hidden"><h3>ফান্ড ম্যানেজমেন্ট</h3><div class="stats"><div class="stat">মোট জমা<b id="income">৳০</b></div><div class="stat">মোট খরচ<b id="expense">৳০</b></div><div class="stat">বর্তমান ব্যালেন্স<b id="balance">৳০</b></div></div><div id="fundList"></div><div id="fundFormBox" class="hidden"><h4>নতুন লেনদেন</h4><form id="fundForm"><div><label>ধরন</label><select id="fundType"><option value="income">জমা</option><option value="expense">খরচ</option></select></div><div><label>খাত / বিবরণ</label><input id="fundTitle" required></div><div><label>টাকার পরিমাণ</label><input id="fundAmount" type="number" min="1" required></div><div><label>তারিখ</label><input id="fundDate" type="date" required></div><button>লেনদেন সংরক্ষণ</button></form></div></section>
-<section id="manage" class="card panel hidden"><h3>অ্যাডমিন ব্যবস্থাপনা</h3><p>শুধুমাত্র অনুমোদিত পাঁচজন অ্যাডমিন এই অংশ ব্যবহার করতে পারবেন।</p><h4>মালিক / ভাড়াটিয়া যোগ বা সম্পাদনা</h4><form id="residentForm"><input type="hidden" id="residentId"><div><label>ধরন</label><select id="residentType"><option value="owner">মালিক</option><option value="tenant">ভাড়াটিয়া</option></select></div><div><label>নাম</label><input id="residentName" required></div><div><label>ফ্ল্যাট নম্বর</label><input id="residentFlat" required></div><div><label>মোবাইল</label><input id="residentPhone"></div><div><label>ইমেইল</label><input id="residentEmail" type="email"></div><div><label>ছবির URL (ঐচ্ছিক)</label><input id="residentPhoto"></div><div><label>লগইন UID (ঐচ্ছিক)</label><input id="residentUid"></div><button>তথ্য সংরক্ষণ</button></form><p class="muted">ব্যবহারকারীর পাসওয়ার্ড এখানে সংরক্ষণ হয় না। Firebase Authentication থেকে আলাদাভাবে তৈরি/রিসেট করতে হবে।</p><div id="adminList"></div></section>
+<section id="manage" class="card panel hidden"><h3>অ্যাডমিন ব্যবস্থাপনা</h3><p>শুধুমাত্র অনুমোদিত পাঁচজন অ্যাডমিন এই অংশ ব্যবহার করতে পারবেন।</p><h4>মালিক / ভাড়াটিয়া যোগ বা সম্পাদনা</h4><form id="residentForm"><input type="hidden" id="residentId"><div><label>ধরন</label><select id="residentType"><option value="owner">মালিক</option><option value="tenant">ভাড়াটিয়া</option></select></div><div><label>নাম</label><input id="residentName" required></div><div><label>ফ্ল্যাট নম্বর</label><select id="residentFlat" required>
+<option value="">ফ্ল্যাট নম্বর নির্বাচন করুন</option>
+<option>1-A</option>
+<option>1-B</option>
+<option>1-C</option>
+<option>2-A</option>
+<option>2-B</option>
+<option>2-C</option>
+<option>3-A</option>
+<option>3-B</option>
+<option>3-C</option>
+<option>4-A</option>
+<option>4-B</option>
+<option>4-C</option>
+<option>5-A</option>
+<option>5-B</option>
+<option>5-C</option>
+<option>6-A</option>
+<option>6-B</option>
+<option>6-C</option>
+<option>7-A</option>
+<option>7-B</option>
+<option>7-C</option>
+<option>8-A</option>
+<option>8-B</option>
+<option>8-C</option>
+</select></div><div><label>মোবাইল</label><input id="residentPhone"></div><div><label>ইমেইল</label><input id="residentEmail" type="email"></div><div><label>ছবির URL (ঐচ্ছিক)</label><input id="residentPhoto"></div><div><label>লগইন UID (ঐচ্ছিক)</label><input id="residentUid"></div><button>তথ্য সংরক্ষণ</button></form><p class="muted">ব্যবহারকারীর পাসওয়ার্ড এখানে সংরক্ষণ হয় না। Firebase Authentication থেকে আলাদাভাবে তৈরি/রিসেট করতে হবে।</p><div id="adminList"></div></section>
 </section></div>
 <script type="module" src="app.js"></script></body></html>
