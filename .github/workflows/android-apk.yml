@@ -41,6 +41,9 @@ jobs:
           echo "Using HTML file: $HTML_FILE"
 
       - name: Create Flutter project
+            - name: Add Internet Permission
+        run: |
+          sed -i '/<application/i\    <uses-permission android:name="android.permission.INTERNET"/>' land_bangla_orchid/android/app/src/main/AndroidManifest.xml
         run: flutter create land_bangla_orchid --platforms=android --org com.landbangla
 
       - name: Add HTML demo and Flutter WebView code
