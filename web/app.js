@@ -19,7 +19,24 @@ function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt
 function money(n){return '৳'+Number(n||0).toLocaleString('en-US');}
 function adminOnly(){if(!isAdmin){message('এই কাজটি শুধু অ্যাডমিন করতে পারবেন।');return false;}return true;}
 try { if(firebaseConfig.apiKey==='YOUR_API_KEY') throw new Error('Firebase Config বসানো হয়নি। README_BN.md অনুসরণ করে web/app.js-এ Firebase Config বসান।'); const app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app); } catch(e){message(e.message);}
-$('loginForm').addEventListener('submit',async e=>{e.preventDefault();try{await signInWithEmailAndPassword(auth,$('email').value.trim(),$('password').value);}catch(err){message('লগইন হয়নি: '+err.message);}});
+$('loginForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+
+  const email=$('email').value.trim();
+  const password=$('password').value;
+
+  if(!email || !password){
+    message('ইমেইল ও পাসওয়ার্ড লিখুন।');
+    return;
+  }
+
+  try{
+    message('লগইন হচ্ছে...');
+    await signInWithEmailAndPassword(auth,email,password);
+  }catch(err){
+    message('লগইন হয়নি: '+err.message);
+  }
+});
 $('logout').onclick=()=>signOut(auth);
 onAuthStateChanged(auth,async user=>{currentUser=user;if(!user){$('login').classList.remove('hidden');$('app').classList.add('hidden');return;}try{const userDoc = await getDoc(doc(db, 'users', user.uid));
 const userData = userDoc.exists() ? userDoc.data() : {};
