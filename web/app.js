@@ -1,7 +1,7 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js';
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js';
 import { getFirestore, collection, doc, getDoc, getDocs, addDoc, setDoc, updateDoc, deleteDoc, query, orderBy, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js';
-
+alert('Land Bangla Orchid app.js চালু হয়েছে');
 // Firebase Console > Project settings > Your apps থেকে নিজের config বসান।
 const firebaseConfig = {
   apiKey: "AIzaSyAfWYL5RSBiXv4hyiQn_Z9JH772Z-yId4o",
